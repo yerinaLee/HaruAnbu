@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.haruanbu.haruanbu_api.common.config.ConstantConfig.*;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -24,7 +26,11 @@ public class AuthController {
     public SendEmailResponseDto sendVerificateEmailJSON(@Valid @RequestBody SendEmailRequestDto req){
         Map<String, Object> result = new HashMap<>();
         result = authService.sendEmailVerificationCode(req.email());
-        return new SendEmailResponseDto((Boolean)result.get("isSent"), 60);
+        return new SendEmailResponseDto((Boolean)result.get("isSent"), AUTH_COOL_DOWN, AUTH_EXPIRES_IN);
+    }
+
+    @PostMapping("/email/verify")
+    public Map<String, Object> verifyEmailCode( ){
     }
 
 }
